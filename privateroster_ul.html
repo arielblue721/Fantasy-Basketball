@@ -1,0 +1,365 @@
+<?php
+
+session_start();
+if ( !isset($_SESSION["authentication"]) || $_SESSION["authentication"] !== "good"){
+
+header("Location: /roster.php"); 
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fantasy Roster</title>
+  </head>
+
+  <script>
+
+    for (i = 0; i < document.cookie.split('; ').length; i++) { 
+
+
+      if (document.cookie.split('; ')[i]==""){
+        document.cookie = "theme=nothing; expires=Tu, 18 Dec 2018 12:00:00 UTC"
+
+        i = document.cookie.split('; ').length;
+      }
+      else if (document.cookie.split('; ')[i]=="theme=default"){
+        var sc= document.createElement("link");
+        sc.setAttribute("type", "text/css");
+        sc.setAttribute("rel", "stylesheet");
+        sc.setAttribute("href", "default.css");
+        document.head.appendChild(sc);
+
+        i = document.cookie.split('; ').length;
+      }
+      else if (document.cookie.split('; ')[i]=="theme=dark"){
+        var sc= document.createElement("link");
+        sc.setAttribute("type", "text/css");
+        sc.setAttribute("rel", "stylesheet");
+        sc.setAttribute("href", "dark.css");
+        document.head.appendChild(sc);
+
+        i = document.cookie.split('; ').length;
+      }
+      else {}
+    }
+  </script>
+
+  <style>
+
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+    @import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+    body {
+      background-color: #d79d0f;
+      background-size: 1800px;
+      font-family: "Open Sans", sans-serif;
+      padding: 5px 25px;
+      font-size: 18px;
+      margin: 0;
+      color: black;
+    }
+
+    span{
+      color: red;
+    }
+
+    span1{
+      color: darkgreen;
+    }
+
+    span2{
+      color: blue;
+    }
+
+    span3{
+      color: darkgoldenrod;
+    }
+
+    heading{
+      color: black;
+      width 100px;
+      font-size: 35px; 
+    }
+
+    div{
+      margin: auto;
+      background-color: aliceblue;
+      width: 1025px;
+      padding-top: 20px;
+      padding-left: 25px;
+      padding-bottom: 20px;
+      padding-right: 25px;
+    }
+
+    ul li.top{
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul li{
+      display: inline-block;
+
+    }
+    ul li.ID {
+      width: 120px;
+    }
+
+    ul li.Name {
+      width: 300px;
+    }
+
+    ul li.Position {  
+      width: 335px;
+    }
+
+    ul li.No {
+      width: 75px;
+    }
+
+    .aID, .aName, .aPos, .aNo {
+      color: black;
+      background-color: aliceblue;
+    }
+
+    div.popup.hidden {   
+      display: none;
+    }
+
+
+    div.popup {
+      background: rgba(0,0,0,.5);   
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      bottom: 0px;
+      width: 100%;
+      height: 100%;
+    }
+
+    div.popup form{
+      background: white;
+      border: 1px solid black;
+      padding-top: 20px;
+      padding-left: 20px;
+      width: 400px;
+      height: 200px;
+      margin: 100px auto 0px;
+    }
+
+    label {
+      display: inline-block;
+      float: left;
+      clear: left;
+      width: 80px;
+      text-align: left;
+      padding-right: 10px;
+    }
+
+    input.diff {
+
+      display: inline-block;
+      float: left;
+      width: 160px;
+
+    }
+
+    label.sub {
+      display: inline-block;
+      float: left;
+      clear: left;
+      width: 80px;
+      text-align: left;
+      padding-top: 10px;
+      padding-left: 75px;
+    }
+
+
+
+
+  </style>
+
+
+
+
+  <body>
+
+
+    <center>
+      <h1>
+        <span>NBA</span> <span1>Fantasy</span1> <span2>Teams</span2> <span3>Roster</span3>
+      </h1> 
+    </center>
+
+
+    <center>
+      <h2>
+        <a href="/index.php">Home</a>
+        &emsp;
+        <a href="/positions.html">Positions</a>
+        &emsp;
+        <a href="/scoringstyle.html">Fantasy Scoring Style</a>
+        &emsp;
+        <a href="/seasonchanges.html">2017-18 Season Changes</a>
+        &emsp;
+        <a href="/privateroster.php">Fantasy Roster</a>
+        &emsp;
+        <a href="/draft.php">Fantasy Draft</a>
+      </h2>
+    </center>
+
+    <div>
+      <heading>
+        <strong>2017-18 NBA Fantasy Roster</strong>
+      </heading>
+
+      <?php
+
+$servername = "10.128.2.129";
+$username = "afigu085";
+$password = "8230004";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+if ($conn->connect_error) {
+{ die("Connection failed: " . $conn->connect_error);
+}
+}
+
+
+
+$sql = "SELECT id, name, position, no FROM sports.team";
+$result = $conn->query($sql);
+
+?>
+
+      <ul>
+        <li class="top"><strong><a class="aID">&emsp;&emsp;&emsp;&emsp;&emsp;ID</a> &emsp;&emsp;&emsp;&emsp;<a class ="aName">Name</a> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a class ="aPos">Position</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a class = "aNo">Number</a></strong></li>
+      </ul>
+      <?php if ($result->num_rows > 0) {
+
+while($row = $result->fetch_assoc()) {
+echo "<ul><li class=\"delete\"><a class=\"del\" href=\"/del.php?id=".$row["id"]."\">Del</a></li>
+
+<li class=\"edit\"><a class=\"ed\" href=\"/edit.php/\">Edit</a>&emsp;</li>
+<li class=\"ID\">" . $row["id"]. "</li><li class=\"Name\">". $row["name"]. "</li><li class=\"Position\">" . $row["position"]. "</li><li class=\"No\">" . $row["no"]. "</li></ul>";
+}
+} else {
+echo "0 results\n";
+}
+?>
+
+      <script>
+
+
+        $("a.del").click(function(e) {
+          e.preventDefault(); 
+
+
+          $.ajax({
+            type: "GET",
+            url: this.href,
+
+            context: $(this).parent("li").parent("ul"),  
+            success: function(obj) {
+              $(this).remove()
+            }
+          });
+        })
+
+
+        $("a.ed").click(function(e) {
+          e.preventDefault(); 
+          $("div.popup").removeClass("hidden")
+          active = $(this).parent("li").parent("ul");
+
+          document.editing.id.value = $(active).find("li.ID").text();
+          document.editing.name.value = $(active).find("li.Name").text();
+          document.editing.position.value = $(active).find("li.Position").text();
+          document.editing.no.value = $(active).find("li.No").text();
+
+
+
+
+        })
+
+
+        $(document).ready(function(){
+
+          $("form").submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+              type: 'POST',
+              url: '/edit.php',
+
+              context: active,
+              data: {
+
+                "id": encodeURIComponent(document.editing.id.value),
+                "name": encodeURIComponent(document.editing.name.value),
+                "position": encodeURIComponent(document.editing.position.value),
+                "no": encodeURIComponent(document.editing.no.value)
+
+
+              },
+
+              success: function(obj) {
+                $(active).find("li.ID").text(document.editing.id.value);
+                $(active).find("li.Name").text(document.editing.name.value);
+                $(active).find("li.Position").text(document.editing.position.value);
+                $(active).find("li.No").text(document.editing.no.value);
+                $("div.popup").addClass("hidden");
+              }
+            });
+
+          })
+
+        });
+      </script>
+
+      <div class="popup hidden">
+
+        <form  name="editing" method="post" action="/edit.php">
+          <input type="hidden" name="id">
+          <label for="">Name  </label>
+          <input class="diff" type="text" name="name" value="" size = 1px;>
+          <label for="">Position  </label>
+          <input class="diff" type="text" name="position" value="">
+          <label for="">No  </label>
+          <input class="diff" type="int" name="no" value="">
+
+          <label class="sub" for="">
+            <center><input type="submit" value ="Update"></center>
+          </label>
+          </div>
+
+
+
+
+
+      </div>
+
+      <br/>
+      <center>
+        <img src="https://d2tjpz01y5bfgl.cloudfront.net/lp/2016-NBA/NBA-Logo.png" width=698px; height=400px;>
+
+
+        &emsp;&emsp;&emsp;&emsp;
+
+
+        <img src="https://cdn-s3.si.com/s3fs-public/2013/01/nba-shot-clock.jpg"  width=450px; height=400px;>>
+      </center>
+
+
+
+
+
+      </body>
+    </html>

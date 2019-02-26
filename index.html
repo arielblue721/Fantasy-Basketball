@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Landing Page</title>
+    <script>
+
+      for (i = 0; i < document.cookie.split('; ').length; i++) { 
+
+
+        if (document.cookie.split('; ')[i]==""){
+          document.cookie = "theme=nothing; expires=Tu, 18 Dec 2019 12:00:00 UTC"
+
+          i = document.cookie.split('; ').length;
+        }
+        else if (document.cookie.split('; ')[i]=="theme=default"){
+          var sc= document.createElement("link");
+          sc.setAttribute("type", "text/css");
+          sc.setAttribute("rel", "stylesheet");
+          sc.setAttribute("href", "default.css");
+          document.head.appendChild(sc);
+
+          i = document.cookie.split('; ').length;
+        }
+        else if (document.cookie.split('; ')[i]=="theme=dark"){
+          var sc= document.createElement("link");
+          sc.setAttribute("type", "text/css");
+          sc.setAttribute("rel", "stylesheet");
+          sc.setAttribute("href", "dark.css");
+          document.head.appendChild(sc);
+
+          i = document.cookie.split('; ').length;
+        }
+        else {}
+      }
+    </script>
+
+
+    <script>
+
+      function defcss() {
+        var sc= document.createElement("link");
+        sc.setAttribute("type", "text/css");
+        sc.setAttribute("rel", "stylesheet");
+        sc.setAttribute("href", "default.css");
+        document.head.appendChild(sc);
+
+        document.cookie = "theme=default; expires=Tu, 18 Dec 2018 12:00:00 UTC";
+      }
+
+      function darkcss() {
+        var sc= document.createElement("link");
+        sc.setAttribute("type", "text/css");
+        sc.setAttribute("rel", "stylesheet");
+        sc.setAttribute("href", "dark.css");
+        document.head.appendChild(sc);
+
+        document.cookie = "theme=dark; expires=Tu, 18 Dec 2018 12:00:00 UTC";
+      }
+    </script>
+
+  </head>
+
+
+
+  <style>
+
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+    @import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+    body {
+
+      <?php
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, "https://api.unsplash.com/photos/random?client_id=4ce6dd1261bac6fe85ce29ec7a741b00e54cc3dc5f5528d14afbd8e47f47765a&query=".$_GET['query']."&count=10");
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      $output = curl_exec($ch);
+
+      $json = json_decode($output);
+
+
+      foreach ($json as $elem) {
+
+
+        echo "background-image: url(".$json[0]->urls->regular.");";
+      }
+
+      ?>
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: "Open Sans", sans-serif;
+      padding: 5px 25px;
+      font-size: 18px;
+      margin: 0;
+      color: black;
+    }
+
+    span{
+      color: red;
+    }
+
+    span1{
+      color: darkgreen;
+    }
+
+    span2{
+      color: blue;
+    }
+
+    span3{
+      color: darkgoldenrod;
+    }
+
+    button {
+      height: 35px;
+    }
+
+
+  </style>
+
+
+
+  <body>
+
+    <center>
+      <h1>
+        <span>NBA</span> <span1>Fantasy</span1> <span2>Teams</span2> <span3>Home Page</span3>
+      </h1> 
+    </center>
+
+
+    <center>
+      <h2>
+        <a href="/index.php">Home</a>
+        &emsp;
+        <a href="/positions.html">Positions</a>
+        &emsp;
+        <a href="/scoringstyle.html">Fantasy Scoring Style</a>
+        &emsp;
+        <a href="/seasonchanges.html">2017-18 Season Changes</a>
+        &emsp;
+        <a href="/roster.php">Fantasy Roster</a>
+        &emsp;
+        <a href="/draft.php">Fantasy Draft</a>
+      </h2>
+    </center>
+
+
+<center>
+  
+  <button onclick="defcss()"> <strong>Default Theme</strong></button>
+  &emsp;&emsp;&emsp;&emsp;&emsp;
+  <button onclick="darkcss()"> <strong>Dark Theme</strong></button>
+  
+
+    </center>    
+    <p>
+      <script>
+
+      </script>
+
+
+    </p>
+
+
+
+
+
+
+  </body>
+</html>

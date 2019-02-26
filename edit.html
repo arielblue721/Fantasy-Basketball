@@ -1,0 +1,39 @@
+<?php
+
+session_start();
+if ( !isset($_SESSION["authentication"]) || $_SESSION["authentication"] !== "good"){
+
+header("Location: /roster.php"); 
+}
+
+
+$servername = "10.128.2.129";
+$username = "afigu085";
+$password = "8230004";
+$dbname = "sports";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+{ die("Connection failed: " . $conn->connect_error);
+}
+}
+?>
+
+<?php
+
+$sql ="UPDATE team SET name ='".urldecode($_POST['name'])."', position='".urldecode($_POST['position'])."', no='".urldecode($_POST['no'])."' WHERE id=".urldecode($_POST['id']);
+
+echo $_POST['id'];
+
+$result = $conn->query($sql);
+
+
+if ($conn->query($sql) === TRUE) {
+header("Location: /privateroster.php"); 
+}
+
+
+?>
+

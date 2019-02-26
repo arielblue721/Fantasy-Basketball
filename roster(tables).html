@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fantasy Roster</title>
+  </head>
+
+
+
+  <style>
+
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+    @import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+    body {
+      background-color: #d79d0f;
+      background-size: 1800px;
+      font-family: "Open Sans", sans-serif;
+      padding: 5px 25px;
+      font-size: 18px;
+      margin: 0;
+      color: black;
+    }
+
+    span{
+      color: red;
+    }
+
+    span1{
+      color: darkgreen;
+    }
+
+    span2{
+      color: blue;
+    }
+
+    span3{
+      color: darkgoldenrod;
+    }
+
+    h1{
+      font-size: 50px;
+      width: 950px;
+      background: whitesmoke;
+    }
+
+    a{
+      font-size: 20px;
+      background-color: whitesmoke;
+      color: blue;
+    }
+
+    heading{
+      color: black;
+      width 100px;
+      font-size: 35px; 
+    }
+
+    div{
+      margin: auto;
+      background-color: aliceblue;
+      width: 1025px;
+      padding-top: 20px;
+      padding-left: 25px;
+      padding-bottom: 20px;
+      padding-right: 25px;
+    }
+
+    table,th,td {
+        border: 1px double black;
+    }
+
+    
+    
+  </style>
+
+
+
+
+  <body>
+
+
+    <center>
+      <h1>
+        <span>NBA</span> <span1>Fantasy</span1> <span2>Teams</span2> <span3>Roster</span3>
+      </h1> 
+    </center>
+
+
+    <center>
+      <h2>
+        <a href="/index.html">Home</a>
+        &emsp;
+        <a href="/positions.html">Positions</a>
+        &emsp;
+        <a href="/scoringstyle.html">Fantasy Scoring Style</a>
+        &emsp;
+        <a href="/seasonchanges.html">2017-18 Season Changes</a>
+        &emsp;
+        <a href="/roster.php">Fantasy Roster</a>
+        &emsp;
+        <a href="/draft.php">Fantasy Draft</a>
+      </h2>
+    </center>
+
+    <div>
+      <heading>
+        <strong>2017-18 NBA Fantasy Roster</strong>
+      </heading>
+
+      <?php
+
+      $servername = "10.128.2.129";
+      $username = "afigu085";
+      $password = "8230004";
+
+      // Create connection
+      $conn = new mysqli($servername, $username, $password);
+
+      if ($conn->connect_error) {
+      { die("Connection failed: " . $conn->connect_error);
+      }
+      }
+
+
+
+      $sql = "SELECT id, name, position, no FROM sports.team";
+      $result = $conn->query($sql);
+
+      ?>
+      
+      
+      <table style="width:100%">
+        </br></br>
+        <tr>
+          <th>ID</th>
+          <th>Name</th> 
+          <th>Position</th>
+          <th>Number</th>
+        </tr>
+    <?php if ($result->num_rows > 0) {
+
+      while($row = $result->fetch_assoc()) {
+      echo "<tr><td>&emsp;&emsp;" . $row["id"]. "</td> <td>&emsp;&emsp;". $row["name"]. "</td><td>&emsp;&emsp;" . $row["position"]. "</td><td>&emsp;&emsp;" . $row["no"]. "</td></tr>\n";
+      }
+      } else {
+      echo "0 results\n";
+      }
+      ?>
+        
+      </table>
+
+        
+      
+        
+ 
+
+    </div>
+
+    <br/>
+    <center>
+      <img src="https://d2tjpz01y5bfgl.cloudfront.net/lp/2016-NBA/NBA-Logo.png" width=698px; height=400px;>
+
+
+      &emsp;&emsp;&emsp;&emsp;
+
+
+      <img src="https://cdn-s3.si.com/s3fs-public/2013/01/nba-shot-clock.jpg"  width=450px; height=400px;>>
+    </center>
+
+
+
+
+
+  </body>
+</html>
